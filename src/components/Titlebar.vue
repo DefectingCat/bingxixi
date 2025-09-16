@@ -1,4 +1,9 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { invoke } from "@tauri-apps/api/core";
+
+const platform = await invoke<string>("platform");
+console.log(platform);
+</script>
 
 <template>
   <div class="titlebar bg-gray-200 dark:bg-gray-800">

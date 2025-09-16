@@ -2,14 +2,12 @@ use std::sync::Mutex;
 
 use tauri::Manager;
 
-// Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
-#[tauri::command]
-fn greet(name: &str) -> String {
-    format!("Hello, {}! You've been greeted from Rust!", name)
-}
+pub mod commands;
 
 #[derive(Default)]
-struct AppStateInner {}
+pub struct AppStateInner {
+    pub platform: &'static str,
+}
 
 type AppState = Mutex<AppStateInner>;
 
@@ -17,11 +15,23 @@ type AppState = Mutex<AppStateInner>;
 pub fn run() {
     tauri::Builder::default()
         .setup(|app| {
-            app.manage(Mutex::new(AppState::default()));
+            let platform = if cfg!(target_os = "windows") {
+                "windows"
+            } else if cfg!(target_os = "macos") {
+                "macos"
+            } else if cfg!(target_os = "linux") {
+                "linux"
+            } else {
+                "unknown"
+            };
+            app.manage(Mutex::new(AppStateInner { platform }));
             Ok(())
         })
         .plugin(tauri_plugin_opener::init())
-        .invoke_handler(tauri::generate_handler![greet])
+        .invoke_handler(tauri::generate_handler![
+            commands::greet,
+            commands::platform
+        ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

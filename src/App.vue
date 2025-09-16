@@ -1,19 +1,29 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { invoke } from "@tauri-apps/api/core";
+import { useAppState } from "./store";
 import Titlebar from "./components/Titlebar.vue";
+
+const appState = useAppState();
+async function init() {
+  const platform = await invoke<string>("platform");
+  appState.setPlatform(platform);
+}
+init();
 
 const greetMsg = ref("");
 const name = ref("");
 
 async function greet() {
-  // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
+  // Learn more about Tauri commands at jttps://tauri.app/develop/calling-rust/
   greetMsg.value = await invoke("greet", { name: name.value });
 }
 </script>
 
 <template>
-  <Titlebar />
+  <Suspense>
+    <Titlebar />
+  </Suspense>
   <main class="container">
     <h1>Welcome to Tauri + Vue</h1>
 
@@ -53,4 +63,3 @@ body {
   @apply overflow-hidden;
 }
 </style>
-
