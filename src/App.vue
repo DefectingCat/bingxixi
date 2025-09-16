@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { invoke } from "@tauri-apps/api/core";
+import Titlebar from "./components/Titlebar.vue";
 
 const greetMsg = ref("");
 const name = ref("");
@@ -12,6 +13,7 @@ async function greet() {
 </script>
 
 <template>
+  <Titlebar />
   <main class="container">
     <h1>Welcome to Tauri + Vue</h1>
 
@@ -47,8 +49,8 @@ body {
 }
 
 #app {
-  height: 100%;
-  @apply bg-gray-100 dark:bg-gray-900 rounded-lg;
+  @apply bg-gray-100 dark:bg-gray-900 rounded-xl h-full;
+  @apply overflow-hidden;
 }
 </style>
 
