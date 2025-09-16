@@ -39,5 +39,16 @@ async function greet() {
 <style scoped></style>
 <style>
 @import "tailwindcss";
+
+html,
+body {
+  background-color: transparent;
+  height: 100%;
+}
+
+#app {
+  height: 100%;
+  @apply bg-gray-100 dark:bg-gray-900 rounded-lg;
+}
 </style>
 
