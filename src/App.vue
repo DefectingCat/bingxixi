@@ -62,4 +62,20 @@ body {
   @apply bg-gray-100 dark:bg-gray-900 rounded-xl h-full;
   @apply overflow-hidden;
 }
+
+@theme {
+  --color-mac-red: #ff5f58;
+  --color-mac-yellow: #ffbd2e;
+  --color-mac-green: #14c13f;
+  --color-mac-red-hover: #e04e4a;
+  --color-mac-yellow-hover: #e0a828;
+  --color-mac-green-hover: #12a837;
+}
+
+@utility button-circle {
+  @apply w-8 h-8 rounded-full transition-all duration-200 flex items-center justify-center shadow-[inset_0_1px_1px_0px_rgba(255,255,255,0.2)];
+}
+@utility button-icon {
+  @apply text-white opacity-0 transition-opacity duration-200 text-xs;
+}
 </style>
