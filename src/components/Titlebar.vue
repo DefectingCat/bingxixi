@@ -2,7 +2,7 @@
 import { invoke } from "@tauri-apps/api/core";
 import MacOS from "./Titlebar/MacOS.vue";
 import { getCurrentWindow } from "@tauri-apps/api/window";
-import { ref, onMounted, watch } from "vue";
+import { ref, onMounted } from "vue";
 
 const platform = await invoke<string>("platform");
 
