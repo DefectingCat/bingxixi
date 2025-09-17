@@ -23,7 +23,7 @@ onMounted(async () => {
     console.error(e);
   }
   const handler = async () => {
-    const unlisten = await appWindow.onResized(async ({ payload: size }) => {
+    const unlisten = await appWindow.onResized(async () => {
       try {
         unlisten && unlisten();
         isMaximized.value = await appWindow.isMaximized();
@@ -74,6 +74,7 @@ const close = () => {
         v-if="platform === 'macos'"
       />
       <Windows
+        :isMaximized="isMaximized"
         @minimize="minimize"
         @maximize="maximize"
         @close="close"

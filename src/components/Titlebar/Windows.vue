@@ -1,5 +1,8 @@
 <script setup lang="ts">
 const emit = defineEmits(["minimize", "maximize", "close"]);
+const { isMaximized } = defineProps<{
+  isMaximized: boolean;
+}>();
 </script>
 
 <template>
@@ -10,15 +13,9 @@ const emit = defineEmits(["minimize", "maximize", "close"]);
       class="hover:bg-gray-300"
       @click="emit('minimize')"
     >
-      <!-- https://api.iconify.design/mdi:window-minimize.svg -->
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-      >
-        <path fill="currentColor" d="M19 13H5v-2h14z" />
-      </svg>
+      <span
+        class="icon-[fluent--minimize-24-filled] button-icon opacity-100 active:opacity-0 w-5 h-5 text-gray-800"
+      ></span>
     </button>
     <button
       id="titlebar-maximize"
@@ -26,15 +23,14 @@ const emit = defineEmits(["minimize", "maximize", "close"]);
       class="hover:bg-gray-300"
       @click="emit('maximize')"
     >
-      <!-- https://api.iconify.design/mdi:window-maximize.svg -->
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-      >
-        <path fill="currentColor" d="M4 4h16v16H4zm2 4v10h12V8z" />
-      </svg>
+      <span
+        class="icon-[fluent--arrow-minimize-20-filled] button-icon opacity-100 active:opacity-0 w-5 h-5 text-gray-800"
+        v-if="isMaximized"
+      ></span>
+      <span
+        class="icon-[fluent--arrow-maximize-16-filled] button-icon opacity-100 active:opacity-0 w-5 h-5 text-gray-800"
+        v-else
+      ></span>
     </button>
     <button
       id="titlebar-close"
@@ -42,18 +38,9 @@ const emit = defineEmits(["minimize", "maximize", "close"]);
       class="hover:bg-gray-300"
       @click="emit('close')"
     >
-      <!-- https://api.iconify.design/mdi:close.svg -->
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-      >
-        <path
-          fill="currentColor"
-          d="M13.46 12L19 17.54V19h-1.46L12 13.46L6.46 19H5v-1.46L10.54 12L5 6.46V5h1.46L12 10.54L17.54 5H19v1.46z"
-        />
-      </svg>
+      <span
+        class="icon-[fluent--add-12-regular] button-icon opacity-100 active:opacity-0 w-6 h-6 text-gray-800 rotate-45"
+      ></span>
     </button>
   </div>
 </template>
