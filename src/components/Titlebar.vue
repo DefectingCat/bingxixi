@@ -27,7 +27,6 @@ const maximize = async () => {
 };
 const close = () => {
   try {
-    // appWindow.close();
     appWindow.hide();
   } catch (e) {
     console.error(e);
@@ -36,12 +35,15 @@ const close = () => {
 </script>
 
 <template>
-  <div class="titlebar bg-gray-200 dark:bg-gray-800 relative">
+  <div
+    :class="[
+      platform === 'windows' ? 'h-[50px]' : 'h-[30px]',
+      'user-select-none w-full bg-gray-200 dark:bg-gray-800 bg-gray-100 dark:bg-gray-900 relative',
+    ]"
+  >
     <div
-      class="left-0 right-0 top-0 bottom-0 absolute"
-      data-tauri-drag-region
-    ></div>
-    <div class="h-full flex">
+      class="h-full flex pointer-events-none absolute left-0 right-0 top-0 bottom-0"
+    >
       <MacOS
         @minimize="minimize"
         @maximize="maximize"
@@ -55,13 +57,8 @@ const close = () => {
         v-else
       />
     </div>
+    <div data-tauri-drag-region class="h-full h-full"></div>
   </div>
 </template>
 
-<style scoped>
-.titlebar {
-  height: 30px;
-  user-select: none;
-  width: 100%;
-}
-</style>
+<style scoped></style>

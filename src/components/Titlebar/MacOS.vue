@@ -3,9 +3,9 @@ const emit = defineEmits(["minimize", "maximize", "close"]);
 </script>
 
 <template>
-  <div class="flex h-full items-center pl-2">
+  <div class="flex h-full items-center pl-2 pointer-events-auto">
     <button
-      class="button-circle w-3 h-3 group bg-mac-red hover:bg-mac-red-hover hover:scale-105 active:scale-95 mr-2"
+      class="button-circle w-3 h-3 group bg-mac-red hover:bg-mac-red-hover hover:scale-105 active:scale-95"
       aria-label="Close window"
       @click="emit('close')"
     >
@@ -23,7 +23,7 @@ const emit = defineEmits(["minimize", "maximize", "close"]);
       </svg>
     </button>
     <button
-      class="button-circle w-3 h-3 group bg-mac-yellow hover:bg-mac-yellow-hover hover:scale-105 active:scale-95 mr-2"
+      class="button-circle w-3 h-3 group bg-mac-yellow hover:bg-mac-yellow-hover hover:scale-105 active:scale-95"
       aria-label="Minimize window"
       @click="emit('minimize')"
     >
@@ -65,5 +65,6 @@ button {
   align-items: center;
   transition: background-color 0.2s;
   cursor: pointer;
+  margin-right: 8px;
 }
 </style>
