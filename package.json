@@ -13,6 +13,8 @@
   "dependencies": {
     "@arco-design/web-vue": "^2.57.0",
     "@arco-plugins/vite-vue": "^1.4.6",
+    "@iconify-json/fluent": "^1.2.31",
+    "@iconify/tailwind": "^1.2.0",
     "@tailwindcss/vite": "^4.1.13",
     "@tauri-apps/api": "^2",
     "@tauri-apps/plugin-opener": "^2",

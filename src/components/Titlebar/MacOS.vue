@@ -1,5 +1,8 @@
 <script setup lang="ts">
 const emit = defineEmits(["minimize", "maximize", "close"]);
+const { isMaximized } = defineProps<{
+  isMaximized: boolean;
+}>();
 </script>
 
 <template>
@@ -9,48 +12,32 @@ const emit = defineEmits(["minimize", "maximize", "close"]);
       aria-label="Close window"
       @click="emit('close')"
     >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="8"
-        height="8"
-        viewBox="0 0 24 24"
-        class="button-icon group-hover:opacity-100 active:opacity-0"
-      >
-        <path
-          fill="currentColor"
-          d="M13.46 12L19 17.54V19h-1.46L12 13.46L6.46 19H5v-1.46L10.54 12L5 6.46V5h1.46L12 10.54L17.54 5H19v1.46z"
-        />
-      </svg>
+      <span
+        class="icon-[fluent--add-12-regular] button-icon group-hover:opacity-100 active:opacity-0 w-2 h-2 rotate-45"
+      ></span>
     </button>
     <button
       class="button-circle w-3 h-3 group bg-mac-yellow hover:bg-mac-yellow-hover hover:scale-105 active:scale-95"
       aria-label="Minimize window"
       @click="emit('minimize')"
     >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="8"
-        height="8"
-        viewBox="0 0 24 24"
-        class="button-icon group-hover:opacity-100 active:opacity-0"
-      >
-        <path fill="currentColor" d="M19 13H5v-2h14z" />
-      </svg>
+      <span
+        class="icon-[fluent--minimize-24-filled] button-icon group-hover:opacity-100 active:opacity-0 w-2 h-2"
+      ></span>
     </button>
     <button
       class="button-circle w-3 h-3 group bg-mac-green hover:bg-mac-green-hover hover:scale-105 active:scale-95"
       aria-label="Maximize window"
       @click="emit('maximize')"
     >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="8"
-        height="8"
-        viewBox="0 0 24 24"
-        class="button-icon group-hover:opacity-100 active:opacity-0"
-      >
-        <path fill="currentColor" d="M4 4h16v16H4zm2 4v10h12V8z" />
-      </svg>
+      <span
+        class="icon-[fluent--arrow-minimize-20-filled] button-icon group-hover:opacity-100 active:opacity-0 w-2 h-2"
+        v-if="isMaximized"
+      ></span>
+      <span
+        class="icon-[fluent--arrow-maximize-16-filled] button-icon group-hover:opacity-100 active:opacity-0 w-2 h-2"
+        v-else
+      ></span>
     </button>
   </div>
 </template>

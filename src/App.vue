@@ -67,4 +67,6 @@ body {
 @utility button-icon {
   @apply text-white opacity-0 transition-opacity duration-200 text-xs;
 }
+
+@plugin "./icons.mjs";
 </style>

@@ -2,6 +2,7 @@
 import { invoke } from "@tauri-apps/api/core";
 import MacOS from "./Titlebar/MacOS.vue";
 import { getCurrentWindow } from "@tauri-apps/api/window";
+import { ref, onMounted, watch } from "vue";
 
 const platform = await invoke<string>("platform");
 
@@ -13,10 +14,31 @@ const minimize = () => {
     console.error(e);
   }
 };
+
+const isMaximized = ref(false);
+onMounted(async () => {
+  try {
+    isMaximized.value = await appWindow.isMaximized();
+  } catch (e) {
+    console.error(e);
+  }
+  const handler = async () => {
+    const unlisten = await appWindow.onResized(async ({ payload: size }) => {
+      try {
+        unlisten && unlisten();
+        isMaximized.value = await appWindow.isMaximized();
+        handler();
+      } catch (e) {
+        console.error(e);
+      }
+    });
+  };
+  await handler();
+});
+
 const maximize = async () => {
   try {
-    const isMaximized = await appWindow.isMaximized();
-    if (isMaximized) {
+    if (isMaximized.value) {
       await appWindow.unmaximize();
     } else {
       await appWindow.maximize();
@@ -45,6 +67,7 @@ const close = () => {
       class="h-full flex pointer-events-none absolute left-0 right-0 top-0 bottom-0"
     >
       <MacOS
+        :isMaximized="isMaximized"
         @minimize="minimize"
         @maximize="maximize"
         @close="close"
