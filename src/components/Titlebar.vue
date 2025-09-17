@@ -7,7 +7,11 @@ const platform = await invoke<string>("platform");
 
 const appWindow = getCurrentWindow();
 const minimize = () => {
-  appWindow.minimize();
+  try {
+    appWindow.minimize();
+  } catch (e) {
+    console.error(e);
+  }
 };
 const maximize = async () => {
   try {
@@ -22,8 +26,12 @@ const maximize = async () => {
   }
 };
 const close = () => {
-  // appWindow.close();
-  appWindow.hide();
+  try {
+    // appWindow.close();
+    appWindow.hide();
+  } catch (e) {
+    console.error(e);
+  }
 };
 </script>
 

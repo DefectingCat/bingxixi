@@ -42,7 +42,7 @@ async function greet() {
 
     <form class="row" @submit.prevent="greet">
       <input id="greet-input" v-model="name" placeholder="Enter a name..." />
-      <button type="submit">Greet</button>
+      <a-button type="primary" html-type="submit">Greet</a-button>
     </form>
     <p>{{ greetMsg }}</p>
   </main>
