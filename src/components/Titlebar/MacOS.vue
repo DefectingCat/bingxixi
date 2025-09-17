@@ -1,8 +1,13 @@
+<script setup lang="ts">
+const emit = defineEmits(["minimize", "maximize", "close"]);
+</script>
+
 <template>
   <div class="flex h-full items-center pl-2">
     <button
       class="button-circle w-3 h-3 group bg-mac-red hover:bg-mac-red-hover hover:scale-105 active:scale-95 mr-2"
       aria-label="Close window"
+      @click="emit('close')"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -20,6 +25,7 @@
     <button
       class="button-circle w-3 h-3 group bg-mac-yellow hover:bg-mac-yellow-hover hover:scale-105 active:scale-95 mr-2"
       aria-label="Minimize window"
+      @click="emit('minimize')"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -34,6 +40,7 @@
     <button
       class="button-circle w-3 h-3 group bg-mac-green hover:bg-mac-green-hover hover:scale-105 active:scale-95"
       aria-label="Maximize window"
+      @click="emit('maximize')"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"

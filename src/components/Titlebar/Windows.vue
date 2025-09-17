@@ -1,5 +1,14 @@
+<script setup lang="ts">
+const emit = defineEmits(["minimize", "maximize", "close"]);
+</script>
+
 <template>
-  <button id="titlebar-minimize" title="minimize" class="hover:bg-gray-300">
+  <button
+    id="titlebar-minimize"
+    title="minimize"
+    class="hover:bg-gray-300"
+    @click="emit('minimize')"
+  >
     <!-- https://api.iconify.design/mdi:window-minimize.svg -->
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -10,7 +19,12 @@
       <path fill="currentColor" d="M19 13H5v-2h14z" />
     </svg>
   </button>
-  <button id="titlebar-maximize" title="maximize" class="hover:bg-gray-300">
+  <button
+    id="titlebar-maximize"
+    title="maximize"
+    class="hover:bg-gray-300"
+    @click="emit('maximize')"
+  >
     <!-- https://api.iconify.design/mdi:window-maximize.svg -->
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -21,7 +35,12 @@
       <path fill="currentColor" d="M4 4h16v16H4zm2 4v10h12V8z" />
     </svg>
   </button>
-  <button id="titlebar-close" title="close" class="hover:bg-gray-300">
+  <button
+    id="titlebar-close"
+    title="close"
+    class="hover:bg-gray-300"
+    @click="emit('close')"
+  >
     <!-- https://api.iconify.design/mdi:close.svg -->
     <svg
       xmlns="http://www.w3.org/2000/svg"
