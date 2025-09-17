@@ -9,11 +9,21 @@ const appWindow = getCurrentWindow();
 const minimize = () => {
   appWindow.minimize();
 };
-const maximize = () => {
-  appWindow.maximize();
+const maximize = async () => {
+  try {
+    const isMaximized = await appWindow.isMaximized();
+    if (isMaximized) {
+      await appWindow.unmaximize();
+    } else {
+      await appWindow.maximize();
+    }
+  } catch (e) {
+    console.error(e);
+  }
 };
 const close = () => {
-  appWindow.close();
+  // appWindow.close();
+  appWindow.hide();
 };
 </script>
 
