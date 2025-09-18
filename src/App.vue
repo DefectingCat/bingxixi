@@ -1,40 +1,24 @@
 <script setup lang="ts">
-import { ref } from "vue";
 import { invoke } from "@tauri-apps/api/core";
 import { useAppState } from "./store";
 import Titlebar from "./components/Titlebar.vue";
+import { RouterLink, RouterView } from "vue-router";
 
+// 检测当前平台，用于设置 macOS 与其他平台的标题栏样式
 const appState = useAppState();
 async function init() {
   const platform = await invoke<string>("platform");
   appState.setPlatform(platform);
 }
 init();
-
-const greetMsg = ref("");
-const name = ref("");
-
-async function greet() {
-  // Learn more about Tauri commands at jttps://tauri.app/develop/calling-rust/
-  greetMsg.value = await invoke("greet", { name: name.value });
-}
 </script>
 
 <template>
   <Suspense>
     <Titlebar />
   </Suspense>
-  <main class="container">
-    <h1>Welcome to Tauri + Vue</h1>
 
-    <p>Click on the Tauri, Vite, and Vue logos to learn more.</p>
-
-    <form class="row" @submit.prevent="greet">
-      <input id="greet-input" v-model="name" placeholder="Enter a name..." />
-      <a-button type="primary" html-type="submit">Greet</a-button>
-    </form>
-    <p>{{ greetMsg }}</p>
-  </main>
+  <RouterView />
 </template>
 
 <style scoped></style>
