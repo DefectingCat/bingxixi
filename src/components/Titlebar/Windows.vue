@@ -1,8 +1,5 @@
 <script setup lang="ts">
 const emit = defineEmits(["minimize", "maximize", "close"]);
-const { isMaximized } = defineProps<{
-  isMaximized: boolean;
-}>();
 </script>
 
 <template>
@@ -23,13 +20,12 @@ const { isMaximized } = defineProps<{
       class="hover:bg-gray-300"
       @click="emit('maximize')"
     >
-      <span
-        class="icon-[fluent--arrow-minimize-20-filled] button-icon opacity-100 active:opacity-0 w-5 h-5 text-gray-800"
-        v-if="isMaximized"
-      ></span>
+      <!-- <span -->
+      <!--   class="icon-[fluent--arrow-minimize-20-filled] button-icon opacity-100 active:opacity-0 w-5 h-5 text-gray-800" -->
+      <!--   v-if="isMaximized" -->
+      <!-- ></span> -->
       <span
         class="icon-[fluent--arrow-maximize-16-filled] button-icon opacity-100 active:opacity-0 w-5 h-5 text-gray-800"
-        v-else
       ></span>
     </button>
     <button

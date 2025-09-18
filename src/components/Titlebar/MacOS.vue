@@ -1,8 +1,5 @@
 <script setup lang="ts">
 const emit = defineEmits(["minimize", "maximize", "close"]);
-const { isMaximized } = defineProps<{
-  isMaximized: boolean;
-}>();
 </script>
 
 <template>
@@ -30,13 +27,12 @@ const { isMaximized } = defineProps<{
       aria-label="Maximize window"
       @click="emit('maximize')"
     >
-      <span
-        class="icon-[fluent--arrow-minimize-20-filled] button-icon group-hover:opacity-100 active:opacity-0 w-2 h-2"
-        v-if="isMaximized"
-      ></span>
+      <!-- <span -->
+      <!--   class="icon-[fluent--arrow-minimize-20-filled] button-icon group-hover:opacity-100 active:opacity-0 w-2 h-2" -->
+      <!--   v-if="isMaximized" -->
+      <!-- ></span> -->
       <span
         class="icon-[fluent--arrow-maximize-16-filled] button-icon group-hover:opacity-100 active:opacity-0 w-2 h-2"
-        v-else
       ></span>
     </button>
   </div>
