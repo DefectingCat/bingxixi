@@ -39,7 +39,7 @@ const close = () => {
   <div
     :class="[
       platform === 'windows' ? 'h-[50px]' : 'h-[30px]',
-      'user-select-none w-full bg-gray-200 dark:bg-gray-800 bg-gray-100 dark:bg-gray-900 relative',
+      'user-select-none w-full relative',
     ]"
   >
     <div

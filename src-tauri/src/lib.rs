@@ -30,7 +30,8 @@ pub fn run() {
         .plugin(tauri_plugin_opener::init())
         .invoke_handler(tauri::generate_handler![
             commands::platform,
-            commands::login_mms
+            commands::login_mms,
+            commands::hide_mms
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

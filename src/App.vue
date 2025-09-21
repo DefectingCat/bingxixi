@@ -2,7 +2,7 @@
 import { invoke } from "@tauri-apps/api/core";
 import { useAppState } from "./store";
 import Titlebar from "./components/Titlebar.vue";
-import { RouterLink, RouterView } from "vue-router";
+import { RouterView } from "vue-router";
 
 // 检测当前平台，用于设置 macOS 与其他平台的标题栏样式
 const appState = useAppState();
@@ -32,7 +32,7 @@ body {
 }
 
 #app {
-  @apply bg-gray-100 dark:bg-gray-900 rounded-xl h-full;
+  @apply bg-gray-100 dark:bg-gray-900 rounded-2xl h-full;
   @apply overflow-hidden;
 }
 
@@ -47,6 +47,7 @@ body {
 
 @utility button-circle {
   @apply w-8 h-8 rounded-full transition-all duration-200 flex items-center justify-center shadow-[inset_0_1px_1px_0px_rgba(255,255,255,0.2)];
+  @apply flex items-center justify-center;
 }
 @utility button-icon {
   @apply text-white opacity-0 transition-opacity duration-200 text-xs;
