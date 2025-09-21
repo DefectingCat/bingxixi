@@ -46,6 +46,9 @@ fn init_mms_window(window: &tauri::WebviewWindow) -> Result<(), String> {
                 div.appendChild(btn);
                 div.appendChild(btn1);
 
+                btn.onclick = async function() {
+                    await invoke('logged_mms');
+                };
                 btn1.onclick = async function() {
                     await invoke('destory_mms');
                 };
@@ -110,6 +113,25 @@ pub async fn destory_mms() -> Result<(), String> {
     let Some(window) = window else {
         return Err("mms window not found".to_string());
     };
+
+    window.destroy().map_err(|e| e.to_string())?;
+    window.close_devtools();
+
+    *MMS.lock().map_err(|e| e.to_string())? = None;
+    Ok(())
+}
+
+#[tauri::command]
+pub async fn logged_mms() -> Result<(), String> {
+    let window = MMS.lock().map_err(|e| e.to_string())?.take();
+    let Some(window) = window else {
+        return Err("mms window not found".to_string());
+    };
+
+    let cookies = window.cookies().map_err(|e| e.to_string())?;
+    for cookie in cookies {
+        println!("{:?}", cookie);
+    }
 
     window.destroy().map_err(|e| e.to_string())?;
     window.close_devtools();

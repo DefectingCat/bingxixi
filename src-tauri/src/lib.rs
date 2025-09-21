@@ -32,7 +32,8 @@ pub fn run() {
             commands::platform,
             commands::login_mms,
             commands::hide_mms,
-            commands::destory_mms
+            commands::destory_mms,
+            commands::logged_mms
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
