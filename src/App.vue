@@ -1,14 +1,22 @@
 <script setup lang="ts">
 import { invoke } from "@tauri-apps/api/core";
-import { useAppState } from "./store";
+import { MMSState, useAppState } from "./store";
 import Titlebar from "./components/Titlebar.vue";
 import { RouterView } from "vue-router";
+import { listen } from "@tauri-apps/api/event";
 
 // 检测当前平台，用于设置 macOS 与其他平台的标题栏样式
 const appState = useAppState();
 async function init() {
   const platform = await invoke<string>("platform");
   appState.setPlatform(platform);
+
+  // 全局监听 mms 的状态
+  listen<MMSState>("mms_store", (event) => {
+    console.log(event);
+    appState.appState.mms.logged = event.payload.logged;
+    appState.appState.mms.cookie = event.payload.cookie;
+  });
 }
 init();
 </script>

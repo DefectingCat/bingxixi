@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { invoke } from "@tauri-apps/api/core";
+import { useAppState } from "../store";
+
+const appState = useAppState();
 
 async function login() {
   try {
@@ -23,4 +26,6 @@ async function hide() {
   <a-button type="primary" @click="login"> Login to mms </a-button>
 
   <a-button type="primary" @click="hide"> Hide mms </a-button>
+
+  <div>{{ appState.appState.mms.logged }}</div>
 </template>
