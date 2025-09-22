@@ -10,7 +10,7 @@ const emit = defineEmits(["minimize", "maximize", "close"]);
       @click="emit('close')"
     >
       <span
-        class="icon-[fluent--add-12-regular] button-icon group-hover:opacity-100 active:opacity-0 w-3 h-3 rotate-45"
+        class="icon-[fluent--add-12-regular] button-icon group-hover:opacity-100 active:opacity-0 w-[9px] h-[10px] rotate-45"
       ></span>
     </button>
     <button
@@ -19,7 +19,7 @@ const emit = defineEmits(["minimize", "maximize", "close"]);
       @click="emit('minimize')"
     >
       <span
-        class="icon-[fluent--minimize-24-filled] button-icon group-hover:opacity-100 active:opacity-0 w-3 h-3"
+        class="icon-[fluent--minimize-24-filled] button-icon group-hover:opacity-100 active:opacity-0 w-[9px] h-[10px]"
       ></span>
     </button>
     <button
@@ -28,11 +28,11 @@ const emit = defineEmits(["minimize", "maximize", "close"]);
       @click="emit('maximize')"
     >
       <!-- <span -->
-      <!--   class="icon-[fluent--arrow-minimize-20-filled] button-icon group-hover:opacity-100 active:opacity-0 w-3 h-3" -->
+      <!--   class="icon-[fluent--arrow-minimize-20-filled] button-icon group-hover:opacity-100 active:opacity-0 w-[10px] h-[10px]" -->
       <!--   v-if="isMaximized" -->
       <!-- ></span> -->
       <span
-        class="icon-[fluent--arrow-maximize-16-filled] button-icon group-hover:opacity-100 active:opacity-0 w-3 h-3"
+        class="icon-[fluent--arrow-maximize-16-filled] button-icon group-hover:opacity-100 active:opacity-0 w-[9px] h-[10px]"
       ></span>
     </button>
   </div>
@@ -43,9 +43,6 @@ button {
   appearance: none;
   padding: 0;
   border: none;
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
   transition: background-color 0.2s;
   cursor: pointer;
   margin-right: 8px;
