@@ -1,10 +1,12 @@
 use std::{sync::LazyLock, time::Duration};
 
 use serde::{Deserialize, Serialize};
+use serde_json::json;
 use tauri::Emitter;
+use tauri_plugin_store::StoreExt;
 use tokio::sync::Mutex;
 
-use crate::AppState;
+use crate::{AppState, MMS_STORE_NAME};
 
 #[tauri::command]
 pub fn platform(state: tauri::State<AppState>) -> &'static str {
@@ -15,6 +17,7 @@ pub fn platform(state: tauri::State<AppState>) -> &'static str {
 static MMS: LazyLock<Mutex<Option<tauri::WebviewWindow>>> = LazyLock::new(|| Mutex::new(None));
 
 /// mms 的全局状态
+/// 该状态将会保存在 store 中
 #[derive(Serialize, Deserialize, Clone)]
 pub struct MmsStore {
     /// 是否已经登录
@@ -22,7 +25,7 @@ pub struct MmsStore {
     /// cookie
     pub cookie: String,
 }
-static MMS_STORE: LazyLock<Mutex<MmsStore>> = LazyLock::new(|| {
+pub static MMS_STORE: LazyLock<Mutex<MmsStore>> = LazyLock::new(|| {
     Mutex::new(MmsStore {
         logged: false,
         cookie: String::new(),
@@ -104,7 +107,7 @@ pub async fn login_mms(app: tauri::AppHandle) -> Result<(), String> {
 
     // 初始化 mms 的窗口，添加关闭按钮
     init_mms_window(&window)?;
-    window.open_devtools();
+    // window.open_devtools();
 
     // 将 mms 的窗口存储到全局状态，已供其他命令使用
     *MMS.lock().await = Some(window);
@@ -131,6 +134,10 @@ pub async fn login_mms(app: tauri::AppHandle) -> Result<(), String> {
                 let cookie_str = cookie_vec.join("; ");
                 mms_store.cookie = cookie_str;
                 app.emit("mms_store", mms_store.clone())?;
+                // store
+                let store = app.store(MMS_STORE_NAME)?;
+                store.set("mms", json!(mms_store.clone()));
+                store.save()?;
                 window.destroy()?;
                 break;
             }
@@ -148,7 +155,7 @@ pub async fn hide_mms() -> Result<(), String> {
     };
 
     window.hide().map_err(|e| e.to_string())?;
-    window.close_devtools();
+    // window.close_devtools();
 
     *MMS.lock().await = Some(window);
     Ok(())
@@ -162,7 +169,7 @@ pub async fn destory_mms() -> Result<(), String> {
     };
 
     window.destroy().map_err(|e| e.to_string())?;
-    window.close_devtools();
+    // window.close_devtools();
 
     *MMS.lock().await = None;
     Ok(())
@@ -181,7 +188,7 @@ pub async fn logged_mms() -> Result<(), String> {
     }
 
     window.destroy().map_err(|e| e.to_string())?;
-    window.close_devtools();
+    // window.close_devtools();
 
     *MMS.lock().await = None;
     Ok(())
