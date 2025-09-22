@@ -193,3 +193,9 @@ pub async fn logged_mms() -> Result<(), String> {
     *MMS.lock().await = None;
     Ok(())
 }
+
+#[tauri::command]
+pub async fn get_mms_store() -> Result<MmsStore, String> {
+    let mms_store = MMS_STORE.lock().await;
+    Ok(mms_store.clone())
+}

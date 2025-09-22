@@ -11,9 +11,13 @@ async function init() {
   const platform = await invoke<string>("platform");
   appState.setPlatform(platform);
 
+  // 启动时先获取下状态
+  const mmsStore = await invoke<MMSState>("get_mms_store");
+  appState.appState.mms.logged = mmsStore.logged;
+  appState.appState.mms.cookie = mmsStore.cookie;
+
   // 全局监听 mms 的状态
   listen<MMSState>("mms_store", (event) => {
-    console.log(event);
     appState.appState.mms.logged = event.payload.logged;
     appState.appState.mms.cookie = event.payload.cookie;
   });
