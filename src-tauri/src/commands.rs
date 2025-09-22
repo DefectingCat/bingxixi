@@ -1,5 +1,6 @@
 use std::{sync::LazyLock, time::Duration};
 
+use serde::{Deserialize, Serialize};
 use tokio::sync::Mutex;
 
 use crate::AppState;
@@ -13,16 +14,17 @@ pub fn platform(state: tauri::State<AppState>) -> &'static str {
 static MMS: LazyLock<Mutex<Option<tauri::WebviewWindow>>> = LazyLock::new(|| Mutex::new(None));
 
 /// mms 的全局状态
+#[derive(Serialize, Deserialize)]
 pub struct MmsStore {
     /// 是否已经登录
     pub logged: bool,
     /// cookie
-    pub cookie: Vec<tauri::webview::Cookie<'static>>,
+    pub cookie: String,
 }
 static MMS_STORE: LazyLock<Mutex<MmsStore>> = LazyLock::new(|| {
     Mutex::new(MmsStore {
         logged: false,
-        cookie: vec![],
+        cookie: String::new(),
     })
 });
 
@@ -120,7 +122,13 @@ pub async fn login_mms(app: tauri::AppHandle) -> Result<(), String> {
             if !url.path().contains("login") {
                 let mut mms_store = MMS_STORE.lock().await;
                 mms_store.logged = true;
-                mms_store.cookie = window.cookies()?;
+                let cookie_vec: Vec<String> = window
+                    .cookies()?
+                    .iter()
+                    .map(|c| format!("{}={}", c.name(), c.value()))
+                    .collect();
+                let cookie_str = cookie_vec.join("; ");
+                mms_store.cookie = cookie_str;
                 window.destroy()?;
                 break;
             }
