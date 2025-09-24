@@ -1,4 +1,6 @@
 <script setup lang="ts">
+// 整个窗口的标题栏，用于显式窗口的控制按钮以及拖动
+
 import { invoke } from "@tauri-apps/api/core";
 import MacOS from "./Titlebar/MacOS.vue";
 import { getCurrentWindow } from "@tauri-apps/api/window";
@@ -13,7 +15,6 @@ const minimize = () => {
     console.error(e);
   }
 };
-
 const maximize = async () => {
   try {
     const isMaximized = await appWindow.isMaximized();

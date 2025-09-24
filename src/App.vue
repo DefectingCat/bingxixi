@@ -2,7 +2,6 @@
 import { invoke } from "@tauri-apps/api/core";
 import { MMSState, useAppState } from "./store";
 import Titlebar from "./components/Titlebar.vue";
-import { RouterView } from "vue-router";
 import { listen } from "@tauri-apps/api/event";
 
 // 检测当前平台，用于设置 macOS 与其他平台的标题栏样式
@@ -30,7 +29,7 @@ init();
     <Titlebar />
   </Suspense>
 
-  <RouterView />
+  <router-view />
 </template>
 
 <style scoped></style>
