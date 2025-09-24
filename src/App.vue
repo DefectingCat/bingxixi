@@ -39,17 +39,6 @@ init();
 /* @custom-variant dark (&:where(.dark, .dark *)); */
 @custom-variant dark (&:where([arco-theme=dark], [arco-theme=dark] *));
 
-html,
-body {
-  background-color: transparent;
-  height: 100%;
-}
-
-#app {
-  @apply bg-gray-100 dark:bg-gray-900 rounded-2xl h-full;
-  @apply overflow-hidden;
-}
-
 @theme {
   --color-mac-red: #ff5f58;
   --color-mac-yellow: #ffbd2e;
@@ -57,6 +46,24 @@ body {
   --color-mac-red-hover: #e04e4a;
   --color-mac-yellow-hover: #e0a828;
   --color-mac-green-hover: #12a837;
+
+  /* arco */
+  --color-bg-1: #17171a;
+  --color-bg-2: #232324;
+  --color-text-1: hsla(0, 0%, 100%, 0.9);
+  --color-text-2: hsla(0, 0%, 100%, 0.7);
+}
+
+html,
+body {
+  background-color: transparent;
+  height: 100%;
+  @apply dark:text-text-2;
+}
+
+#app {
+  @apply bg-gray-100 dark:bg-bg-1 rounded-2xl h-full;
+  @apply overflow-hidden;
 }
 
 @utility button-circle {
