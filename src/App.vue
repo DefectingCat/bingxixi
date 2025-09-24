@@ -36,6 +36,9 @@ init();
 <style>
 @import "tailwindcss";
 
+/* @custom-variant dark (&:where(.dark, .dark *)); */
+@custom-variant dark (&:where([arco-theme=dark], [arco-theme=dark] *));
+
 html,
 body {
   background-color: transparent;
