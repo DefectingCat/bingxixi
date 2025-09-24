@@ -14,7 +14,10 @@ pub struct AppStateInner {
 }
 
 pub type AppState = Mutex<AppStateInner>;
+/// 本地存储的全局状态名称
 pub static MMS_STORE_NAME: &str = "mms_store";
+/// mms 的本地存储 key 名称
+pub static MMS_STORE_KEY: &str = "mms";
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
@@ -34,7 +37,7 @@ pub fn run() {
 
             // 初始化 store
             let store = app.store(MMS_STORE_NAME)?;
-            let mms_store = store.get("mms");
+            let mms_store = store.get(MMS_STORE_KEY);
             if let Some(mms_store) = mms_store {
                 let mms_store_value: MmsStore = serde_json::from_value(mms_store)?;
                 // 在这里发送事件，前端可能没有准备好
@@ -59,7 +62,7 @@ pub fn run() {
                 };
                 tauri::async_runtime::spawn(async move {
                     let mms_store = MMS_STORE.lock().await;
-                    store.set("mms", json!(mms_store.clone()));
+                    store.set(MMS_STORE_KEY, json!(mms_store.clone()));
                     store.save()?;
                     anyhow::Ok(())
                 });
@@ -74,7 +77,8 @@ pub fn run() {
             commands::hide_mms,
             commands::destory_mms,
             commands::logged_mms,
-            commands::get_mms_store
+            commands::get_mms_store,
+            commands::logout_mms,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

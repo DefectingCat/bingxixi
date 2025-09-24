@@ -6,7 +6,7 @@ use tauri::Emitter;
 use tauri_plugin_store::StoreExt;
 use tokio::sync::Mutex;
 
-use crate::{AppState, MMS_STORE_NAME};
+use crate::{AppState, MMS_STORE_KEY, MMS_STORE_NAME};
 
 #[tauri::command]
 pub fn platform(state: tauri::State<AppState>) -> &'static str {
@@ -18,20 +18,17 @@ static MMS: LazyLock<Mutex<Option<tauri::WebviewWindow>>> = LazyLock::new(|| Mut
 
 /// mms 的全局状态
 /// 该状态将会保存在 store 中
-#[derive(Serialize, Deserialize, Clone)]
+#[derive(Serialize, Deserialize, Clone, Default)]
 pub struct MmsStore {
     /// 是否已经登录
     pub logged: bool,
     /// cookie
     pub cookie: String,
 }
-pub static MMS_STORE: LazyLock<Mutex<MmsStore>> = LazyLock::new(|| {
-    Mutex::new(MmsStore {
-        logged: false,
-        cookie: String::new(),
-    })
-});
+pub static MMS_STORE: LazyLock<Mutex<MmsStore>> = LazyLock::new(|| Mutex::new(MmsStore::default()));
 
+/// 初始化 mms 的窗口
+/// 为 mms 的窗口添加关闭按钮
 fn init_mms_window(window: &tauri::WebviewWindow) -> Result<(), String> {
     window
         .eval(
@@ -77,10 +74,10 @@ fn init_mms_window(window: &tauri::WebviewWindow) -> Result<(), String> {
     Ok(())
 }
 
-#[tauri::command]
 /// 登录到拼多多
 /// 首先检查是否已经创建了 webview 窗口，如果没有则创建
 /// 如果已经创建了，再刷新
+#[tauri::command]
 pub async fn login_mms(app: tauri::AppHandle) -> Result<(), String> {
     let window = MMS.lock().await.take();
     let window = if let Some(window) = window {
@@ -147,6 +144,8 @@ pub async fn login_mms(app: tauri::AppHandle) -> Result<(), String> {
     Ok(())
 }
 
+/// 隐藏 mms 的窗口
+/// 并不会关闭 mms 的窗口，只是隐藏
 #[tauri::command]
 pub async fn hide_mms() -> Result<(), String> {
     let window = MMS.lock().await.take();
@@ -161,6 +160,7 @@ pub async fn hide_mms() -> Result<(), String> {
     Ok(())
 }
 
+/// 销毁 mms 的窗口
 #[tauri::command]
 pub async fn destory_mms() -> Result<(), String> {
     let window = MMS.lock().await.take();
@@ -175,6 +175,8 @@ pub async fn destory_mms() -> Result<(), String> {
     Ok(())
 }
 
+/// 获取 mms 的窗口的 cookie
+/// 并销毁 mms 的窗口
 #[tauri::command]
 pub async fn logged_mms() -> Result<(), String> {
     let window = MMS.lock().await.take();
@@ -194,8 +196,25 @@ pub async fn logged_mms() -> Result<(), String> {
     Ok(())
 }
 
+/// 获取 mms 的本地存储
 #[tauri::command]
 pub async fn get_mms_store() -> Result<MmsStore, String> {
     let mms_store = MMS_STORE.lock().await;
     Ok(mms_store.clone())
+}
+
+/// 注销 mms 的登录
+#[tauri::command]
+pub async fn logout_mms(app: tauri::AppHandle) -> Result<(), String> {
+    let mut mms_store = MMS_STORE.lock().await;
+    *mms_store = MmsStore::default();
+
+    let store = app.store(MMS_STORE_NAME).map_err(|e| e.to_string())?;
+    let ok = store.delete(MMS_STORE_KEY);
+    if !ok {
+        return Err("delete mms store failed".to_string());
+    }
+    app.emit("mms_store", MmsStore::default())
+        .map_err(|e| e.to_string())?;
+    Ok(())
 }
