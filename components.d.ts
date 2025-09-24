@@ -8,6 +8,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    DarkMode: typeof import('./src/components/Navigate/DarkMode.vue')['default']
     MacOS: typeof import('./src/components/Titlebar/MacOS.vue')['default']
     Menu: typeof import('./src/components/Menu.vue')['default']
     Navigate: typeof import('./src/components/Navigate.vue')['default']
