@@ -3,25 +3,53 @@ import { invoke } from "@tauri-apps/api/core";
 import { MMSState, useAppState } from "./store";
 import Titlebar from "./components/Titlebar.vue";
 import { listen } from "@tauri-apps/api/event";
+import { watch } from "vue";
+
+function setSystemTheme() {
+  const darkThemeMq = window.matchMedia("(prefers-color-scheme: dark)");
+  darkThemeMq.addEventListener("change", (e) => {
+    if (e.matches) {
+      document.body.setAttribute("arco-theme", "dark");
+      document.documentElement.setAttribute("arco-theme", "dark");
+    } else {
+      document.body.removeAttribute("arco-theme");
+      document.documentElement.removeAttribute("arco-theme");
+    }
+  });
+}
 
 // 检测当前平台，用于设置 macOS 与其他平台的标题栏样式
-const appState = useAppState();
+const { appState, setPlatform } = useAppState();
 async function init() {
   const platform = await invoke<string>("platform");
-  appState.setPlatform(platform);
+  setPlatform(platform);
 
   // 启动时先获取下状态
   const mmsStore = await invoke<MMSState>("get_mms_store");
-  appState.appState.mms.logged = mmsStore.logged;
-  appState.appState.mms.cookie = mmsStore.cookie;
+  appState.mms.logged = mmsStore.logged;
+  appState.mms.cookie = mmsStore.cookie;
 
   // 全局监听 mms 的状态
   listen<MMSState>("mms_store", (event) => {
-    appState.appState.mms.logged = event.payload.logged;
-    appState.appState.mms.cookie = event.payload.cookie;
+    appState.mms.logged = event.payload.logged;
+    appState.mms.cookie = event.payload.cookie;
   });
+
+  // 适配系统暗色模式
+  if (!("theme" in localStorage)) {
+    setSystemTheme();
+    appState.themeMode = "auto";
+  } else {
+    appState.themeMode = localStorage.theme;
+  }
 }
-init();
+init().catch(console.error);
+
+watch(appState, () => {
+  if (appState.themeMode === "auto") {
+    setSystemTheme();
+  }
+});
 </script>
 
 <template>

@@ -1,6 +1,7 @@
+const darkThemeMq = window.matchMedia("(prefers-color-scheme: dark)");
+
 const darkMode =
-  (!("theme" in localStorage) &&
-    window.matchMedia("(prefers-color-scheme: dark)").matches) ||
+  (!("theme" in localStorage) && darkThemeMq.matches) ||
   localStorage.theme === "dark";
 
 document.body.setAttribute("arco-theme", darkMode ? "dark" : "light");

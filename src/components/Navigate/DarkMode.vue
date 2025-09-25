@@ -1,27 +1,28 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { useAppState } from "../../store";
 
-const themeMode = ref<"light" | "dark" | "auto">("auto");
+const { appState } = useAppState();
 const handleTheme = (theme: "light" | "dark" | "auto") => {
   switch (theme) {
     case "light":
-      themeMode.value = "light";
+      appState.themeMode = "light";
       document.body.setAttribute("arco-theme", "light");
       document.documentElement.setAttribute("arco-theme", "light");
       localStorage.theme = "light";
       break;
     case "dark":
-      themeMode.value = "dark";
+      appState.themeMode = "dark";
       document.body.setAttribute("arco-theme", "dark");
       document.documentElement.setAttribute("arco-theme", "dark");
       localStorage.theme = "dark";
       break;
     case "auto":
-      themeMode.value = "auto";
-      const darkMode = window.matchMedia(
-        "(prefers-color-scheme: dark)",
-      ).matches;
-      document.body.setAttribute("arco-theme", darkMode ? "dark" : "light");
+      appState.themeMode = "auto";
+      const darkMode = window.matchMedia("(prefers-color-scheme: dark)");
+      document.body.setAttribute(
+        "arco-theme",
+        darkMode.matches ? "dark" : "light",
+      );
       document.documentElement.setAttribute(
         "arco-theme",
         darkMode ? "dark" : "light",
@@ -39,15 +40,15 @@ const handleTheme = (theme: "light" | "dark" | "auto") => {
         <div class="text-text-1 dark:text-text-2">
           <span
             class="icon-[fluent--weather-sunny-16-regular]"
-            v-if="themeMode === 'light'"
+            v-if="appState.themeMode === 'light'"
           ></span>
           <span
             class="icon-[fluent--weather-moon-16-regular]"
-            v-if="themeMode === 'dark'"
+            v-if="appState.themeMode === 'dark'"
           ></span>
           <span
             class="icon-[fluent--device-meeting-room-16-regular]"
-            v-if="themeMode === 'auto'"
+            v-if="appState.themeMode === 'auto'"
           ></span>
         </div>
       </template>
