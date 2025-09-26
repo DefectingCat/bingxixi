@@ -12,6 +12,7 @@ import DarkMode from "./Navigate/DarkMode.vue";
     <div class="">并夕夕</div>
     <div class="flex items-center">
       <DarkMode />
+      <User />
     </div>
   </div>
 </template>

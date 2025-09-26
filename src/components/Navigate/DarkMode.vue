@@ -36,7 +36,7 @@ const handleTheme = (item: { value: "light" | "dark" | "auto" }) => {
 
 <template>
   <t-dropdown @click="handleTheme">
-    <t-button variant="text">
+    <t-button variant="text" class="px-2!">
       <template #icon>
         <span
           class="icon-[fluent--weather-sunny-16-regular]"

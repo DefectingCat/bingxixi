@@ -14,6 +14,7 @@ declare module 'vue' {
     Navigate: typeof import('./src/components/Navigate.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    TAvatar: typeof import('tdesign-vue-next')['Avatar']
     TButton: typeof import('tdesign-vue-next')['Button']
     TDropdown: typeof import('tdesign-vue-next')['Dropdown']
     TDropdownItem: typeof import('tdesign-vue-next')['DropdownItem']
@@ -22,7 +23,10 @@ declare module 'vue' {
     Titlebar: typeof import('./src/components/Titlebar.vue')['default']
     TMenu: typeof import('tdesign-vue-next')['Menu']
     TMenuItem: typeof import('tdesign-vue-next')['MenuItem']
+    TPopup: typeof import('tdesign-vue-next')['Popup']
     TSubmenu: typeof import('tdesign-vue-next')['Submenu']
+    User: typeof import('./src/components/Navigate/User.vue')['default']
+    UserInfo: typeof import('./src/components/Navigate/User/UserInfo.vue')['default']
     Windows: typeof import('./src/components/Titlebar/Windows.vue')['default']
   }
 }
