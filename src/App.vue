@@ -9,11 +9,11 @@ function setSystemTheme() {
   const darkThemeMq = window.matchMedia("(prefers-color-scheme: dark)");
   darkThemeMq.addEventListener("change", (e) => {
     if (e.matches) {
-      document.body.setAttribute("arco-theme", "dark");
-      document.documentElement.setAttribute("arco-theme", "dark");
+      document.body.setAttribute("theme-mode", "dark");
+      document.documentElement.setAttribute("theme-mode", "dark");
     } else {
-      document.body.removeAttribute("arco-theme");
-      document.documentElement.removeAttribute("arco-theme");
+      document.body.removeAttribute("theme-mode");
+      document.documentElement.removeAttribute("theme-mode");
     }
   });
 }
@@ -65,7 +65,7 @@ watch(appState, () => {
 @import "tailwindcss";
 
 /* @custom-variant dark (&:where(.dark, .dark *)); */
-@custom-variant dark (&:where([arco-theme=dark], [arco-theme=dark] *));
+@custom-variant dark (&:where([theme-mode=dark], [theme-mode=dark] *));
 
 @theme {
   --color-mac-red: #ff5f58;

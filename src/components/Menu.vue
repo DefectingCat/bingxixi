@@ -1,41 +1,61 @@
 <script setup lang="ts">
 // 左侧菜单栏
+import { ref, computed } from "vue";
+import { ButtonProps } from "tdesign-vue-next";
+const collapsed = ref(false);
+const iconName = computed(() =>
+  collapsed.value ? "chevron-right" : "chevron-left",
+);
+const changeCollapsed: ButtonProps["onClick"] = () => {
+  collapsed.value = !collapsed.value;
+};
 </script>
 
 <template>
-  <a-menu
-    :style="{ width: '200px', height: '100%' }"
-    :default-open-keys="['0']"
-    :default-selected-keys="['0_2']"
-    show-collapse-button
-    breakpoint="xl"
-  >
-    <a-sub-menu key="0">
-      <template #icon><icon-apps></icon-apps></template>
-      <template #title>Navigation 1</template>
-      <a-menu-item key="0_0">Menu 1</a-menu-item>
-      <a-menu-item key="0_1">Menu 2</a-menu-item>
-      <a-menu-item key="0_2">Menu 3</a-menu-item>
-      <a-menu-item key="0_3">Menu 4</a-menu-item>
-    </a-sub-menu>
-    <a-sub-menu key="1">
-      <template #icon><icon-bug></icon-bug></template>
-      <template #title>Navigation 2</template>
-      <a-menu-item key="1_0">Menu 1</a-menu-item>
-      <a-menu-item key="1_1">Menu 2</a-menu-item>
-      <a-menu-item key="1_2">Menu 3</a-menu-item>
-    </a-sub-menu>
-    <a-sub-menu key="2">
-      <template #icon><icon-bulb></icon-bulb></template>
-      <template #title>Navigation 3</template>
-      <a-menu-item key="2_0">Menu 1</a-menu-item>
-      <a-menu-item key="2_1">Menu 2</a-menu-item>
-      <a-sub-menu key="2_2" title="Navigation 4">
-        <a-menu-item key="2_2_0">Menu 1</a-menu-item>
-        <a-menu-item key="2_2_1">Menu 2</a-menu-item>
-      </a-sub-menu>
-    </a-sub-menu>
-  </a-menu>
+  <t-menu default-value="2-1" :collapsed="collapsed">
+    <template #logo>
+      <span>LOGO</span>
+    </template>
+    <t-menu-item value="item1">
+      <template #icon>
+        <t-icon name="dashboard" />
+      </template>
+      仪表盘1
+    </t-menu-item>
+    <t-submenu value="2" mode="popup">
+      <template #icon>
+        <t-icon name="mail" />
+      </template>
+      <template #title>
+        <span>信息区</span>
+      </template>
+      <t-menu-item value="2-1"> 菜单内容一 </t-menu-item>
+      <t-menu-item value="2-2"> 菜单内容二 </t-menu-item>
+      <t-menu-item value="2-3"> 菜单内容三 </t-menu-item>
+    </t-submenu>
+    <t-menu-item value="item3">
+      <template #icon>
+        <t-icon name="play-circle" />
+      </template>
+      视频区
+    </t-menu-item>
+    <t-menu-item value="item4" :disabled="true">
+      <template #icon>
+        <t-icon name="edit-1" />
+      </template>
+      资源编辑
+    </t-menu-item>
+    <template #operations>
+      <t-button
+        class="t-demo-collapse-btn"
+        variant="text"
+        shape="square"
+        @click="changeCollapsed"
+      >
+        <template #icon><t-icon :name="iconName" /></template>
+      </t-button>
+    </template>
+  </t-menu>
 </template>
 
 <style scoped></style>

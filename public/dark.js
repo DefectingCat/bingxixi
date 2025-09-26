@@ -4,8 +4,8 @@ const darkMode =
   (!("theme" in localStorage) && darkThemeMq.matches) ||
   localStorage.theme === "dark";
 
-document.body.setAttribute("arco-theme", darkMode ? "dark" : "light");
+document.body.setAttribute("theme-mode", darkMode ? "dark" : "light");
 document.documentElement.setAttribute(
-  "arco-theme",
+  "theme-mode",
   darkMode ? "dark" : "light",
 );
