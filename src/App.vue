@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { invoke } from "@tauri-apps/api/core";
 import { MMSState, useAppState } from "./store";
-import Titlebar from "./components/Titlebar.vue";
 import { listen } from "@tauri-apps/api/event";
 import { watch } from "vue";
 
@@ -92,6 +91,7 @@ body {
 #app {
   @apply bg-gray-100 dark:bg-bg-1 rounded-2xl h-full;
   @apply overflow-hidden;
+  @apply flex flex-col;
 }
 
 @utility button-circle {

@@ -12,10 +12,7 @@ const changeCollapsed: ButtonProps["onClick"] = () => {
 </script>
 
 <template>
-  <t-menu default-value="2-1" :collapsed="collapsed">
-    <template #logo>
-      <span>LOGO</span>
-    </template>
+  <t-menu :collapsed="collapsed">
     <t-menu-item value="item1">
       <template #icon>
         <t-icon name="dashboard" />

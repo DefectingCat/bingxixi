@@ -1,15 +1,15 @@
-<script setup lang="ts">
-import Navigate from "../components/Navigate.vue";
-</script>
+<script setup lang="ts"></script>
 
 <template>
-  <Navigate />
+  <div class="flex flex-col h-full">
+    <Navigate />
 
-  <div>
-    <Menu />
-    <main class="flex-1">
-      <router-view />
-    </main>
+    <div class="flex justify-between flex-1">
+      <Menu />
+      <main class="flex-1">
+        <router-view />
+      </main>
+    </div>
   </div>
 </template>
 
