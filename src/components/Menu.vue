@@ -2,6 +2,12 @@
 // 左侧菜单栏
 import { ref, computed } from "vue";
 import { ButtonProps } from "tdesign-vue-next";
+import { HomeIcon, GitRepositoryIcon } from "tdesign-icons-vue-next";
+import { useRoute } from "vue-router";
+
+const route = useRoute();
+const path = computed(() => route.path);
+
 const collapsed = ref(false);
 const iconName = computed(() =>
   collapsed.value ? "chevron-right" : "chevron-left",
@@ -12,12 +18,26 @@ const changeCollapsed: ButtonProps["onClick"] = () => {
 </script>
 
 <template>
-  <t-menu :collapsed="collapsed">
-    <t-menu-item value="item1">
+  <t-menu :collapsed="collapsed" :value="path">
+    <t-menu-item value="/app" routerLink :to="{ path: '/app' }">
       <template #icon>
-        <t-icon name="dashboard" />
+        <home-icon
+          :fill-color="'transparent'"
+          :stroke-color="'currentColor'"
+          :stroke-width="2"
+        />
       </template>
-      仪表盘1
+      首页
+    </t-menu-item>
+    <t-menu-item value="/app/about" routerLink :to="{ path: '/app/about' }">
+      <template #icon>
+        <git-repository-icon
+          :fill-color="'transparent'"
+          :stroke-color="'currentColor'"
+          :stroke-width="2"
+        />
+      </template>
+      关于
     </t-menu-item>
     <t-submenu value="2" mode="popup">
       <template #icon>

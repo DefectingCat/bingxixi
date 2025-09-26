@@ -20,6 +20,7 @@
     "@tdesign-vue-next/auto-import-resolver": "^0.1.2",
     "pinia": "^3.0.3",
     "tailwindcss": "^4.1.13",
+    "tdesign-icons-vue-next": "^0.4.1",
     "tdesign-vue-next": "^1.17.0",
     "unplugin-auto-import": "^20.1.0",
     "unplugin-vue-components": "^29.0.0",
