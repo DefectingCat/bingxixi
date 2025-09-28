@@ -79,6 +79,13 @@ fn init_mms_window(window: &tauri::WebviewWindow) -> Result<(), String> {
 /// 如果已经创建了，再刷新
 #[tauri::command]
 pub async fn login_mms(app: tauri::AppHandle) -> Result<(), String> {
+    {
+        let mms_store = MMS_STORE.lock().await;
+        if mms_store.logged {
+            return Err("mms already logged".to_string());
+        }
+    }
+
     let window = MMS.lock().await.take();
     let window = if let Some(window) = window {
         window.reload().map_err(|e| e.to_string())?;
@@ -120,6 +127,7 @@ pub async fn login_mms(app: tauri::AppHandle) -> Result<(), String> {
                 break;
             };
             let url = window.url()?;
+            // window 会先打开一个 about:blank 的窗口，然后再打开 mms 的登录页面
             if !url.path().contains("login") && !url.path().contains("blank") {
                 let mut mms_store = MMS_STORE.lock().await;
                 mms_store.logged = true;
