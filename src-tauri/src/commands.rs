@@ -120,7 +120,7 @@ pub async fn login_mms(app: tauri::AppHandle) -> Result<(), String> {
                 break;
             };
             let url = window.url()?;
-            if !url.path().contains("login") {
+            if !url.path().contains("login") && !url.path().contains("blank") {
                 let mut mms_store = MMS_STORE.lock().await;
                 mms_store.logged = true;
                 let cookie_vec: Vec<String> = window
