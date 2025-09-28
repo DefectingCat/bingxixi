@@ -30,6 +30,14 @@ pub static MMS_STORE_KEY: &str = "mms";
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
+        .plugin(tauri_plugin_single_instance::init(|app, _args, _cwd| {
+            let window = app
+                .get_webview_window("main")
+                .expect("main window not found");
+            let _ = window.unminimize();
+            let _ = window.show();
+            let _ = window.set_focus();
+        }))
         .plugin(tauri_plugin_window_state::Builder::new().build())
         .plugin(tauri_plugin_store::Builder::new().build())
         .setup(|app| {
