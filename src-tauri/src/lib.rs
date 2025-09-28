@@ -10,6 +10,7 @@ use tauri::tray::TrayIconBuilder;
 use tauri::tray::TrayIconEvent;
 use tauri::Manager;
 use tauri_plugin_store::StoreExt;
+use tauri_plugin_window_state::{AppHandleExt, StateFlags, WindowExt};
 
 use crate::commands::{MmsStore, MMS_STORE};
 
@@ -95,6 +96,13 @@ pub fn run() {
                 )
                 .build(app)?;
 
+            // 恢复窗口位置
+            if let Some(window) = app.get_webview_window("main") {
+                let _ = window
+                    .restore_state(StateFlags::all())
+                    .map_err(|e| eprintln!("restore_window_state error: {:?}", e));
+            }
+
             Ok(())
         })
         .on_window_event(|window, event| match event {
@@ -114,6 +122,10 @@ pub fn run() {
                     store.save()?;
                     anyhow::Ok(())
                 });
+                // 保存窗口位置
+                let _ = app
+                    .save_window_state(StateFlags::all())
+                    .map_err(|e| eprintln!("save_window_state error: {:?}", e));
             }
             tauri::WindowEvent::Destroyed => (),
             _ => (),

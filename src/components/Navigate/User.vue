@@ -1,6 +1,5 @@
 <script setup lang="ts">
 // 导航栏中的用户按钮
-import { UserIcon } from "tdesign-icons-vue-next";
 import { useAppState } from "../../store";
 
 const appState = useAppState();
@@ -15,7 +14,7 @@ const logged = appState.appState.mms.logged;
       </template>
     </t-button>
     <template #content>
-      <UserInfo />
+      <UserInfo :logged="logged" />
     </template>
   </t-popup>
 </template>

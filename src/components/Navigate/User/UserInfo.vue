@@ -1,14 +1,17 @@
 <script setup lang="tsx">
 import { UserIcon } from "tdesign-icons-vue-next";
-import { useRouter } from "vue-router";
+import { invoke } from "@tauri-apps/api/core";
 
 const { logged } = defineProps<{
   logged: boolean;
 }>();
 
-const router = useRouter();
-function login() {
-  router.push("/app/login");
+async function login() {
+  try {
+    await invoke("login_mms");
+  } catch (e) {
+    console.error(e);
+  }
 }
 </script>
 
