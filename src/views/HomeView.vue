@@ -23,8 +23,8 @@ async function logout() {
 
 <template>
   <div>首页</div>
-  <t-button type="primary" @click="login"> Login to mms </t-button>
-  <t-button type="primary" @click="logout"> Logout mms </t-button>
+  <t-button @click="login"> Login to mms </t-button>
+  <t-button @click="logout"> Logout mms </t-button>
 
   <div>{{ appState.appState.mms.logged }}</div>
 </template>

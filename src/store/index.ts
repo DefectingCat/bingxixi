@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import { reactive } from "vue";
+import { MMSUser } from "../api";
 
 export type AppState = {
   // 当前平台
@@ -7,7 +8,9 @@ export type AppState = {
   // 暗色模式
   themeMode: "light" | "dark" | "auto";
   // mms 相关状态
-  mss: MMSState;
+  mms: MMSState;
+  // mms 用户信息
+  mmsUser: MMSUser | null;
 };
 
 export type MMSState = {
@@ -16,13 +19,14 @@ export type MMSState = {
 };
 
 export const useAppState = defineStore("appState", () => {
-  const appState = reactive({
+  const appState = reactive<AppState>({
     platform: "unknown",
     themeMode: "auto",
     mms: {
       logged: false,
       cookie: "",
     },
+    mmsUser: null,
   });
 
   function setPlatform(platform: string) {

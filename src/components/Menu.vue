@@ -18,61 +18,63 @@ const changeCollapsed: ButtonProps["onClick"] = () => {
 </script>
 
 <template>
-  <t-menu :collapsed="collapsed" :value="path">
-    <t-menu-item value="/app" routerLink :to="{ path: '/app' }">
-      <template #icon>
-        <home-icon
-          :fill-color="'transparent'"
-          :stroke-color="'currentColor'"
-          :stroke-width="2"
-        />
+  <div>
+    <t-menu :collapsed="collapsed" :value="path">
+      <t-menu-item value="/app" routerLink :to="{ path: '/app' }">
+        <template #icon>
+          <home-icon
+            :fill-color="'transparent'"
+            :stroke-color="'currentColor'"
+            :stroke-width="2"
+          />
+        </template>
+        首页
+      </t-menu-item>
+      <t-menu-item value="/app/about" routerLink :to="{ path: '/app/about' }">
+        <template #icon>
+          <git-repository-icon
+            :fill-color="'transparent'"
+            :stroke-color="'currentColor'"
+            :stroke-width="2"
+          />
+        </template>
+        关于
+      </t-menu-item>
+      <t-submenu value="2" mode="popup">
+        <template #icon>
+          <t-icon name="mail" />
+        </template>
+        <template #title>
+          <span>信息区</span>
+        </template>
+        <t-menu-item value="2-1"> 菜单内容一 </t-menu-item>
+        <t-menu-item value="2-2"> 菜单内容二 </t-menu-item>
+        <t-menu-item value="2-3"> 菜单内容三 </t-menu-item>
+      </t-submenu>
+      <t-menu-item value="item3">
+        <template #icon>
+          <t-icon name="play-circle" />
+        </template>
+        视频区
+      </t-menu-item>
+      <t-menu-item value="item4" :disabled="true">
+        <template #icon>
+          <t-icon name="edit-1" />
+        </template>
+        资源编辑
+      </t-menu-item>
+      <template #operations>
+        <t-button
+          class="t-demo-collapse-btn"
+          variant="text"
+          shape="square"
+          @click="changeCollapsed"
+        >
+          <template #icon><t-icon :name="iconName" /></template>
+        </t-button>
       </template>
-      首页
-    </t-menu-item>
-    <t-menu-item value="/app/about" routerLink :to="{ path: '/app/about' }">
-      <template #icon>
-        <git-repository-icon
-          :fill-color="'transparent'"
-          :stroke-color="'currentColor'"
-          :stroke-width="2"
-        />
-      </template>
-      关于
-    </t-menu-item>
-    <t-submenu value="2" mode="popup">
-      <template #icon>
-        <t-icon name="mail" />
-      </template>
-      <template #title>
-        <span>信息区</span>
-      </template>
-      <t-menu-item value="2-1"> 菜单内容一 </t-menu-item>
-      <t-menu-item value="2-2"> 菜单内容二 </t-menu-item>
-      <t-menu-item value="2-3"> 菜单内容三 </t-menu-item>
-    </t-submenu>
-    <t-menu-item value="item3">
-      <template #icon>
-        <t-icon name="play-circle" />
-      </template>
-      视频区
-    </t-menu-item>
-    <t-menu-item value="item4" :disabled="true">
-      <template #icon>
-        <t-icon name="edit-1" />
-      </template>
-      资源编辑
-    </t-menu-item>
-    <template #operations>
-      <t-button
-        class="t-demo-collapse-btn"
-        variant="text"
-        shape="square"
-        @click="changeCollapsed"
-      >
-        <template #icon><t-icon :name="iconName" /></template>
-      </t-button>
-    </template>
-  </t-menu>
+    </t-menu>
+  </div>
 </template>
 
 <style scoped></style>

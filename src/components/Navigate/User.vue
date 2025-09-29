@@ -1,9 +1,5 @@
 <script setup lang="ts">
 // 导航栏中的用户按钮
-import { useAppState } from "../../store";
-
-const appState = useAppState();
-const logged = appState.appState.mms.logged;
 </script>
 
 <template>
@@ -14,7 +10,7 @@ const logged = appState.appState.mms.logged;
       </template>
     </t-button>
     <template #content>
-      <UserInfo :logged="logged" />
+      <UserInfo />
     </template>
   </t-popup>
 </template>

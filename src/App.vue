@@ -3,6 +3,10 @@ import { invoke } from "@tauri-apps/api/core";
 import { MMSState, useAppState } from "./store";
 import { listen } from "@tauri-apps/api/event";
 import { watch } from "vue";
+import { userInfo } from "./api";
+import { initConsole } from "./utils";
+
+initConsole();
 
 function setSystemTheme() {
   const darkThemeMq = window.matchMedia("(prefers-color-scheme: dark)");
@@ -27,6 +31,14 @@ async function init() {
   const mmsStore = await invoke<MMSState>("get_mms_store");
   appState.mms.logged = mmsStore.logged;
   appState.mms.cookie = mmsStore.cookie;
+  // 如果已经登录了，则获取用户信息
+  if (mmsStore.logged) {
+    const mmsUser = await userInfo();
+    console.log("get mmsUser", mmsUser);
+    if (mmsUser) {
+      appState.mmsUser = mmsUser;
+    }
+  }
 
   // 全局监听 mms 的状态
   listen<MMSState>("mms_store", (event) => {

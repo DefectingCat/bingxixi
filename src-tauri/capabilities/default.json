@@ -2,9 +2,7 @@
   "$schema": "../gen/schemas/desktop-schema.json",
   "identifier": "default",
   "description": "Capability for the main window",
-  "windows": [
-    "main"
-  ],
+  "windows": ["main"],
   "permissions": [
     "core:default",
     "opener:default",
@@ -18,6 +16,13 @@
     "core:webview:allow-create-webview-window",
     "store:default",
     "core:app:allow-default-window-icon",
-    "log:default"
+    "log:default",
+    "http:default",
+    {
+      "identifier": "http:default",
+      "allow": [{ "url": "https://*.pinduoduo.com" }],
+      "deny": []
+    }
   ]
 }
+
