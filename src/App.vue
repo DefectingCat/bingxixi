@@ -52,9 +52,9 @@ watch(appState, () => {
 </script>
 
 <template>
-  <Suspense>
-    <Titlebar />
-  </Suspense>
+  <!-- <Suspense> -->
+  <!--   <Titlebar /> -->
+  <!-- </Suspense> -->
 
   <router-view />
 </template>
@@ -83,13 +83,14 @@ watch(appState, () => {
 
 html,
 body {
-  background-color: transparent;
+  /* background-color: transparent; */
   height: 100%;
   @apply dark:text-text-2;
 }
 
 #app {
-  @apply bg-gray-100 dark:bg-bg-1 rounded-2xl h-full;
+  @apply bg-gray-100 dark:bg-bg-1 h-full;
+  /* @apply rounded-2xl; */
   @apply overflow-hidden;
   @apply flex flex-col;
 }

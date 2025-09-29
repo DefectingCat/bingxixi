@@ -1,8 +1,8 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "binxixi",
+  "productName": "bingxixi",
   "version": "0.1.0",
-  "identifier": "com.xfy.binxixi",
+  "identifier": "com.xfy.bingxixi",
   "build": {
     "beforeDevCommand": "pnpm dev",
     "devUrl": "http://localhost:1420",
@@ -10,16 +10,12 @@
     "frontendDist": "../dist"
   },
   "app": {
-    "macOSPrivateApi": true,
     "withGlobalTauri": true,
     "windows": [
       {
-        "title": "binxixi",
+        "title": "并夕夕",
         "width": 1366,
-        "height": 768,
-        "decorations": false,
-        "transparent": true,
-        "resizable": true
+        "height": 768
       }
     ],
     "security": {
