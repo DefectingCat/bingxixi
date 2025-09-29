@@ -181,6 +181,7 @@ pub fn run() {
             commands::logged_mms,
             commands::get_mms_store,
             commands::logout_mms,
+            commands::api::fetch_user_info,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

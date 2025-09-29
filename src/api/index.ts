@@ -1,8 +1,10 @@
-import { fetch } from "@tauri-apps/plugin-http";
-import { useAppState } from "../store";
-
-const baseUrl = "https://mms.pinduoduo.com";
-
+// 用户信息
+export interface BaseResponse<T> {
+  success: boolean;
+  errorCode: number;
+  errorMsg: null;
+  result: T;
+}
 export interface MMSUser {
   id: number;
   username: string;
@@ -20,16 +22,4 @@ export interface MMSUser {
   server_time: number;
   created_at: Date;
   updated_at: Date;
-}
-export async function userInfo() {
-  const appState = useAppState();
-  const cookie = appState.appState.mms.cookie;
-
-  console.log("cookie", cookie);
-
-  const res = await fetch(`${baseUrl}/janus/api/new/userinfo`, {
-    method: "POST",
-  });
-  const response = (await res.json()) as MMSUser | null;
-  return response;
 }

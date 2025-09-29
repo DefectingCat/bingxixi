@@ -3,7 +3,7 @@ import { invoke } from "@tauri-apps/api/core";
 import { MMSState, useAppState } from "./store";
 import { listen } from "@tauri-apps/api/event";
 import { watch } from "vue";
-import { userInfo } from "./api";
+import { BaseResponse, MMSUser } from "./api";
 import { initConsole } from "./utils";
 
 initConsole();
@@ -33,10 +33,10 @@ async function init() {
   appState.mms.cookie = mmsStore.cookie;
   // 如果已经登录了，则获取用户信息
   if (mmsStore.logged) {
-    const mmsUser = await userInfo();
-    console.log("get mmsUser", mmsUser);
-    if (mmsUser) {
-      appState.mmsUser = mmsUser;
+    const res = await invoke<BaseResponse<MMSUser>>("fetch_user_info");
+    console.log("get mmsUser", res);
+    if (res.result) {
+      appState.mmsUser = res.result;
     }
   }
 

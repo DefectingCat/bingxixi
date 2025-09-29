@@ -46,6 +46,10 @@ async function login() {
         class="w-full! h-full!"
       />
     </div>
+
+    <div class="mt-4 flex justify-center">
+      {{ appState.appState.mmsUser?.username }}
+    </div>
   </div>
 </template>
 

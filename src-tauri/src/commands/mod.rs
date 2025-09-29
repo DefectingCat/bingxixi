@@ -8,6 +8,8 @@ use tokio::sync::Mutex;
 
 use crate::{AppState, MMS_STORE_KEY, MMS_STORE_NAME};
 
+pub mod api;
+
 #[tauri::command]
 pub fn platform(state: tauri::State<AppState>) -> &'static str {
     state.lock().map(|s| s.platform).unwrap_or("unknown")
