@@ -6,7 +6,7 @@
 
     <div class="flex justify-between flex-1">
       <Menu />
-      <main class="flex-1">
+      <main class="flex-1 p-4">
         <router-view />
       </main>
     </div>

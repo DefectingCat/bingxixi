@@ -2,7 +2,9 @@
   "$schema": "../gen/schemas/desktop-schema.json",
   "identifier": "default",
   "description": "Capability for the main window",
-  "windows": ["main"],
+  "windows": [
+    "main"
+  ],
   "permissions": [
     "core:default",
     "opener:default",
@@ -15,7 +17,7 @@
     "core:window:allow-unmaximize",
     "core:webview:allow-create-webview-window",
     "store:default",
-    "core:app:allow-default-window-icon"
+    "core:app:allow-default-window-icon",
+    "log:default"
   ]
 }
-

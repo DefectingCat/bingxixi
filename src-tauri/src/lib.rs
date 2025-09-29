@@ -30,6 +30,11 @@ pub static MMS_STORE_KEY: &str = "mms";
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
+        .plugin(
+            tauri_plugin_log::Builder::new()
+                .level(log::LevelFilter::Info)
+                .build(),
+        )
         .plugin(tauri_plugin_single_instance::init(|app, _args, _cwd| {
             let window = app
                 .get_webview_window("main")
@@ -77,7 +82,7 @@ pub fn run() {
                         app.exit(0);
                     }
                     "test" => {
-                        println!("test");
+                        log::debug!("test");
                     }
                     _ => {}
                 })
@@ -108,20 +113,43 @@ pub fn run() {
             if let Some(window) = app.get_webview_window("main") {
                 let _ = window
                     .restore_state(StateFlags::all())
-                    .map_err(|e| eprintln!("restore_window_state error: {:?}", e));
+                    .map_err(|e| log::error!("restore_window_state error: {:?}", e));
             }
 
             Ok(())
         })
         .on_window_event(|window, event| match event {
-            // 当窗口被关闭时，将 mms 的状态保存到 store
-            tauri::WindowEvent::CloseRequested { .. } => {
+            tauri::WindowEvent::CloseRequested { api, .. } => {
+                log::info!("window close requested");
+                api.prevent_close();
+                let _ = window
+                    .hide()
+                    .map_err(|e| log::error!("hide_window error: {:?}", e));
+
                 let app = window.app_handle();
                 let store = app
                     .store(MMS_STORE_NAME)
-                    .map_err(|e| eprintln!("store error: {:?}", e));
+                    .map_err(|e| log::error!("store error: {:?}", e));
                 let Ok(store) = store else {
-                    eprintln!("store error: cannot get store");
+                    log::error!("store error: cannot get store");
+                    return;
+                };
+                tauri::async_runtime::spawn(async move {
+                    let mms_store = MMS_STORE.lock().await;
+                    store.set(MMS_STORE_KEY, json!(mms_store.clone()));
+                    store.save()?;
+                    anyhow::Ok(())
+                });
+            }
+            // 当窗口被关闭时，将 mms 的状态保存到 store
+            tauri::WindowEvent::Destroyed => {
+                log::info!("window destroyed");
+                let app = window.app_handle();
+                let store = app
+                    .store(MMS_STORE_NAME)
+                    .map_err(|e| log::error!("store error: {:?}", e));
+                let Ok(store) = store else {
+                    log::error!("store error: cannot get store");
                     return;
                 };
                 tauri::async_runtime::spawn(async move {
@@ -133,9 +161,8 @@ pub fn run() {
                 // 保存窗口位置
                 let _ = app
                     .save_window_state(StateFlags::all())
-                    .map_err(|e| eprintln!("save_window_state error: {:?}", e));
+                    .map_err(|e| log::error!("save_window_state error: {:?}", e));
             }
-            tauri::WindowEvent::Destroyed => (),
             _ => (),
         })
         .plugin(tauri_plugin_opener::init())
