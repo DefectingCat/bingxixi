@@ -3,7 +3,7 @@ import { invoke } from "@tauri-apps/api/core";
 import { MMSState, useAppState } from "./store";
 import { listen } from "@tauri-apps/api/event";
 import { watch } from "vue";
-import { BaseResponse, MMSUser } from "./api";
+import { BaseResponse, MmsErrResponse, MMSUser } from "./api";
 import { initConsole } from "./utils";
 
 initConsole();
@@ -33,9 +33,14 @@ async function init() {
   appState.mms.cookie = mmsStore.cookie;
   // 如果已经登录了，则获取用户信息
   if (mmsStore.logged) {
-    const res = await invoke<BaseResponse<MMSUser>>("fetch_user_info");
-    console.log("get mmsUser", res);
-    if (res.result) {
+    const res = await invoke<BaseResponse<MMSUser> | MmsErrResponse>(
+      "fetch_user_info",
+    );
+    console.log("get mmsUser", res, typeof res);
+    if (!("result" in res) && res.error_code === 43001) {
+      // 如果是 43001 的错误，则需要重新登录
+    }
+    if ("result" in res) {
       appState.mmsUser = res.result;
     }
   }

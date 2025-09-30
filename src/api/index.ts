@@ -1,10 +1,17 @@
-// 用户信息
+// 成功的相应
 export interface BaseResponse<T> {
   success: boolean;
   errorCode: number;
   errorMsg: null;
   result: T;
 }
+// 失败的相应
+export interface MmsErrResponse {
+  error_code: number;
+  error_msg: string;
+  success: boolean;
+}
+// 用户信息
 export interface MMSUser {
   id: number;
   username: string;

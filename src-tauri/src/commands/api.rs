@@ -8,11 +8,27 @@ const BASE_URL: &str = "https://mms.pinduoduo.com";
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(rename_all = "camelCase")]
-pub struct MmsUser {
+pub struct MmsBaseResponse<T> {
     success: bool,
-    error_code: i64,
-    error_msg: Option<serde_json::Value>,
-    result: MmsUserResult,
+    error_code: u32,
+    error_msg: Option<String>,
+    result: T,
+}
+
+/// 出现错误时的响应
+/// error_code 为 43001 时为 cookie 失效
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct MmsErrResponse {
+    error_code: u32,
+    error_msg: String,
+    success: bool,
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
+#[serde(untagged)]
+pub enum MmsResponse<T> {
+    Success(MmsBaseResponse<T>),
+    Err(MmsErrResponse),
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -43,14 +59,14 @@ pub struct MmsUserResult {
 
 /// 获取用户信息
 #[tauri::command]
-pub async fn fetch_user_info() -> Result<MmsUser, String> {
+pub async fn fetch_user_info() -> Result<MmsResponse<MmsUserResult>, String> {
     let client = reqwest::Client::new();
     let mms = MMS_STORE.lock().await;
 
     let mut header_map = HeaderMap::default();
     header_map.insert(
         "Cookie",
-        HeaderValue::from_str(&format!("mms-token={}", mms.cookie)).map_err(|e| e.to_string())?,
+        HeaderValue::from_str(&mms.cookie).map_err(|e| e.to_string())?,
     );
     let res = client
         .post(format!("{BASE_URL}/janus/api/new/userinfo"))
@@ -58,6 +74,9 @@ pub async fn fetch_user_info() -> Result<MmsUser, String> {
         .send()
         .await
         .map_err(|e| e.to_string())?;
-    let res = res.json::<MmsUser>().await.map_err(|e| e.to_string())?;
+    let res = res
+        .json::<MmsResponse<MmsUserResult>>()
+        .await
+        .map_err(|e| e.to_string())?;
     Ok(res)
 }
